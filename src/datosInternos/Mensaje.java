@@ -4,11 +4,13 @@
  */
 package datosInternos;
 
+import java.io.Serializable;
+
 /**
  *
  * @author M-01
  */
-public class Mensaje {
+public class Mensaje  implements Serializable{
     String mensaje;
     String usuario;
     int IDSala;
