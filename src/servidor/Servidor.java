@@ -9,6 +9,7 @@ import contenedor.Lista;
 import datosComunes.ObjComunicacion;
 import datosComunes.Usuario;
 import datosInternos.Mensaje;
+import datosInternos.Sala;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,6 +18,7 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.Timestamp;
 
 
 /**
@@ -92,10 +94,17 @@ public class Servidor {
                if (usrLista != null && 
                    u.getPassUsr().equals(usrLista.getPassUsr())){
                    conectados.agregar(usrLista);
-                   peticion.setSalida(true);
+                   peticion.setSalida(0);
+                   if(salas.getCantidad() == 0){
+                        Lista tempUsers = new Lista();
+                        tempUsers.agregar(u);
+                        crearSala(0, tempUsers);
+                   }else{
+                      
+                   }
                }
                else{
-                   peticion.setSalida(false);
+                   peticion.setSalida(-1);
                }
           }
               
@@ -103,9 +112,10 @@ public class Servidor {
 
           case ENVIAR_MENSAJE:
               Mensaje m = (Mensaje) peticion.getEntrada();
+              ((Sala)salas.getLista().get(0)).getMensajes().agregar(m);
               break;
           case LISTAR_CONECTADOS: 
-               peticion.setSalida(conectados);
+               peticion.setSalida( ((Sala)salas.getLista().get(0)).getUsuarios() );
                break;
 
           case SALUDAR: 
@@ -116,14 +126,23 @@ public class Servidor {
         
         
     }
+    
+    private String marcadeTiempo(){
+	java.util.Date date= new java.util.Date();
+	return (new Timestamp(date.getTime())).toString();
+    }
 
-
-
-
-
-
-
-
+    //Crea sala y añade al usuario que la solicita
+    private int crearSala(int indiceSala, Lista usuarios){
+        if(indiceSala >= salas.getCantidad()){
+           Lista tempMensajes = new Lista();
+           tempMensajes.agregar( new Mensaje(indiceSala, "Sala Creada - Numero: "+ indiceSala +" - "+ marcadeTiempo(), "SERVIDOR"));
+           salas.agregar(new Sala(indiceSala, usuarios, tempMensajes));
+        }else{
+            ((Sala) salas.getLista().get(indiceSala)).getUsuarios().agregar( ((Usuario)usuarios.getLista().get(0)));
+        }
+        return indiceSala;
+    }
 
 
 
