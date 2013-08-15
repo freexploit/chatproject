@@ -14,5 +14,12 @@ public class Sala {
     int id;
     Lista usuarios;
     Lista mensajes;
+
+    public Sala() {
+    
+    }
+     
+
+    
     
 }
