@@ -112,10 +112,14 @@ public class Servidor {
 
           case ENVIAR_MENSAJE:
               Mensaje m = (Mensaje) peticion.getEntrada();
-              ((Sala)salas.getLista().get(0)).getMensajes().agregar(m);
+              if(m.getMensaje().equals("") == false){
+                ((Sala)salas.getLista().get(m.getIDSala())).getMensajes().agregar(m);
+              }
+              peticion.setSalida( ((Sala)salas.getLista().get(m.getIDSala())).getMensajes() );
               break;
-          case LISTAR_CONECTADOS: 
-               peticion.setSalida( ((Sala)salas.getLista().get(0)).getUsuarios() );
+          case LISTAR_CONECTADOS:
+               int IDSala = (Integer) peticion.getEntrada();
+               peticion.setSalida( ((Sala)salas.getLista().get(IDSala)).getUsuarios() );
                break;
 
           case SALUDAR: 
@@ -138,6 +142,10 @@ public class Servidor {
            Lista tempMensajes = new Lista();
            tempMensajes.agregar( new Mensaje(indiceSala, "Sala Creada - Numero: "+ indiceSala +" - "+ marcadeTiempo(), "SERVIDOR"));
            salas.agregar(new Sala(indiceSala, usuarios, tempMensajes));
+           if(indiceSala == 0){
+               ((Sala)salas.getLista().get(0)).setNombreSala("LOBBY : Bienvenido!");
+           }
+               
         }else{
             ((Sala) salas.getLista().get(indiceSala)).getUsuarios().agregar( ((Usuario)usuarios.getLista().get(0)));
         }
