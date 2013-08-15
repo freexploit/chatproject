@@ -60,7 +60,7 @@ public class UICliente {
             salita.setVisible(true);
             refrescarVentana(salita);
             if(salita != null){
-                ventana.dispose();
+                //ventana.dispose();
                 //JOptionPane.showMessageDialog(null, peticion.getSalida());
             }else{
                 JOptionPane.showMessageDialog(null, "Error al crear ventana.");    

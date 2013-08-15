@@ -91,8 +91,7 @@ public class Servidor {
           case INGRESAR : {
                u = (Usuario) peticion.getEntrada();
                Usuario usrLista = (Usuario) general.consultar(u) ;
-               if (usrLista != null && 
-                   u.getPassUsr().equals(usrLista.getPassUsr())){
+               if (usrLista != null && u.getPassUsr().equals(usrLista.getPassUsr())){
                    conectados.agregar(usrLista);
                    peticion.setSalida(0);
                    if(salas.getCantidad() == 0){
@@ -100,7 +99,7 @@ public class Servidor {
                         tempUsers.agregar(u);
                         crearSala(0, tempUsers);
                    }else{
-                      
+                       // ((Sala)salas.getLista().get(0)).getUsuarios().agregar(u.getLoginUsr());
                    }
                }
                else{
