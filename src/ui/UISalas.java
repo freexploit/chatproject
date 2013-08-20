@@ -8,6 +8,7 @@ import cliente.Cliente;
 import contenedor.Lista;
 import datosComunes.Accion;
 import datosComunes.ObjComunicacion;
+import datosComunes.Usuario;
 import datosInternos.Mensaje;
 import interfaz.Cargador;
 import interfaz.DiSala;
@@ -54,6 +55,19 @@ public final class UISalas implements Runnable {
 	Cliente conexion = new Cliente(peticion);
 	refrescarVentana();
 	
+	
+    }
+    public int crearSala(){
+    	Usuario u = new Usuario(null,ventana.getLogin(),null);
+	ObjComunicacion peticion = new ObjComunicacion();
+	peticion.setAccion(Accion.CREAR_SALA);
+	peticion.setEntrada(u);
+	Cliente conexion = new Cliente(peticion);
+	peticion = (ObjComunicacion) conexion.getMensaje();
+	Integer id = (Integer) peticion.getSalida();
+	int iD=id.intValue();
+	return iD;
+    
     }
 
 	public void run() {

@@ -122,10 +122,12 @@ public class Servidor {
 
 			case ENVIAR_MENSAJE:
 				Mensaje m = (Mensaje) peticion.getEntrada();
-				if (m.getMensaje().equals("") == false) {
+				/*if (m.getMensaje().equals("") == false) {
 					((Sala) salas.getLista().get(m.getIDSala())).getMensajes().agregar(m);
-				}
+				}*/
+				((Sala) salas.getLista().get(m.getIDSala())).getMensajes().agregar(m);
 				peticion.setSalida(((Sala) salas.getLista().get(m.getIDSala())).getMensajes());
+
 				break;
 			case LISTAR_CONECTADOS:
 				int IDSala = (Integer) peticion.getEntrada();
@@ -135,8 +137,14 @@ public class Servidor {
 			case SALUDAR:
 				peticion.setSalida("Saludos " + peticion.getEntrada() + "!!");
 				break;
-			case TRANSFERIR_ARCHIVO:
-				
+			case CREAR_SALA:
+				Usuario usuario = (Usuario) peticion.getEntrada();
+				Usuario realone= (Usuario) conectados.consultar(usuario);
+				Sala nSala = new Sala(salas.getCantidad());
+				Lista l = new Lista();
+				l.agregar(realone);
+				nSala.setUsuarios(l);
+				peticion.setSalida(nSala.getId());
 				break;
 				
 					
