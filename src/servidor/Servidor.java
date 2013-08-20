@@ -9,7 +9,8 @@ import datosComunes.ObjComunicacion;
 import datosComunes.Usuario;
 import datosInternos.Mensaje;
 import datosInternos.Sala;
-import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -18,6 +19,8 @@ import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.Timestamp;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -35,7 +38,11 @@ public class Servidor {
 	public Servidor() {
 		try {
 			// se crea el servidor..
-			general = general.cargar("usuarios");
+			File f = new File("usuarios");
+			//verifica si existe el archivo usuarios y lo carga
+			if (f.exists()) {
+				general = general.cargar("usuarios");
+			}
 			System.out.println("Levantando servidor...");
 			ServerSocket server = new ServerSocket(PUERTO);
 			// se entra a un proceso infinto de atencion...
@@ -79,6 +86,14 @@ public class Servidor {
 				Usuario u = (Usuario) peticion.getEntrada();
 				if (general.consultar(u) == null) {
 					general.agregar(u);
+					//persistencia de usuarios
+					try {
+						general.grabar("usuarios");
+					} catch (FileNotFoundException ex) {
+						Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
+					} catch (IOException ex) {
+						Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
+					}
 
 					peticion.setSalida("Usuario registrado...");
 				} else {
@@ -120,6 +135,11 @@ public class Servidor {
 			case SALUDAR:
 				peticion.setSalida("Saludos " + peticion.getEntrada() + "!!");
 				break;
+			case TRANSFERIR_ARCHIVO:
+				
+				break;
+				
+					
 		}
 		return peticion;
 

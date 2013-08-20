@@ -4,8 +4,6 @@
  */
 package interfaz;
 
-import javax.swing.JLabel;
-import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import ui.UICliente;
 

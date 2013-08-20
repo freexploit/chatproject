@@ -56,9 +56,11 @@ public class UICliente {
             conexion = new Cliente (peticion);
             peticion = (ObjComunicacion) conexion.getMensaje();
             // en el dato de salida de la nueva peticion viene la lista de conectados..
-            DiSala salita = new DiSala(null, false, this);
+            DiSala salita = new DiSala(null, false);
+	    salita.setIDSala(IDSala);
+	    salita.setLogin(login);
             salita.setVisible(true);
-            refrescarVentana(salita);
+	    
             if(salita != null){
                 //ventana.dispose();
                 //JOptionPane.showMessageDialog(null, peticion.getSalida());
@@ -71,34 +73,6 @@ public class UICliente {
         }
     }
     
-    public void refrescarVentana(DiSala salita){
-        //Refrescar lista usuarios
-        ObjComunicacion peticion = new ObjComunicacion();
-        peticion.setAccion(Accion.LISTAR_CONECTADOS);
-        peticion.setEntrada(IDSala);
-        Cliente conexion = new Cliente (peticion);
-        peticion = (ObjComunicacion) conexion.getMensaje();
-        Lista tempLista = (Lista)peticion.getSalida();
-        salita.getLstUsuarios().setModel(Cargador.cargarlistaUsuarios(tempLista));
-        //Refrescar lista mensajes
-        peticion = new ObjComunicacion(Accion.ENVIAR_MENSAJE, new Mensaje(IDSala, "",""));
-        conexion = new Cliente(peticion);
-        peticion = (ObjComunicacion) conexion.getMensaje();
-        Lista tempMensajes = (Lista)peticion.getSalida();
-        salita.getTxtChat().setText(Cargador.cargarMensajes(tempMensajes));
-        
-    }
-
-    public void enviarMensaje(DiSala salita) {
-        String mensaje = salita.getTxtMensaje().getText().trim();
-        Mensaje paquete = new Mensaje(IDSala, mensaje, login);
-        ObjComunicacion peticion = new ObjComunicacion();
-        peticion.setAccion(Accion.ENVIAR_MENSAJE);
-        peticion.setEntrada(paquete);
-        Cliente conexion = new Cliente(peticion);
-        refrescarVentana(salita);
-        
-    }
     
     
     
