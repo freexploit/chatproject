@@ -186,7 +186,13 @@ private void btnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
 }//GEN-LAST:event_btnEnviarActionPerformed
 
         private void nuevaSalaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuevaSalaActionPerformed
+		int id = 0;
+		id =uiSala.crearSala();
+		DiSala newSala= new DiSala(null,false);
+		newSala.setIDSala(id);
+		newSala.setVisible(true);
                 // TODO add your handling code here:
+		
         }//GEN-LAST:event_nuevaSalaActionPerformed
 
     /**
@@ -268,4 +274,5 @@ private void btnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
         private javax.swing.JTextArea txtChat;
         private javax.swing.JTextField txtMensaje;
         // End of variables declaration//GEN-END:variables
+
 }
