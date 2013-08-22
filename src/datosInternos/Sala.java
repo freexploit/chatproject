@@ -52,6 +52,7 @@ public class Sala {
         this.id = id;
         this.usuarios = usuarios;
         this.mensajes = mensajes;
+        System.out.println("**************SALA: SALA # " + this.id + " CANT. USUARIOS: " + this.usuarios.getCantidad() +" --\n ");
     }
     
     

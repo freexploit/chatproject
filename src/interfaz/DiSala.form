@@ -7,7 +7,6 @@
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
-    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
   </SyntheticProperties>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
@@ -100,9 +99,11 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="lblTitle" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
+                  <Component id="btnAgregarU" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="enviarArchivo" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="nuevaSala" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="nuevaSala" min="-2" pref="92" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -115,6 +116,7 @@
                       <Component id="lblTitle" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="nuevaSala" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="enviarArchivo" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnAgregarU" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -135,6 +137,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="nuevaSala">
           <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="66" green="ff" red="ff" type="rgb"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Nueva Sala"/>
           </Properties>
           <Events>
@@ -143,8 +148,25 @@
         </Component>
         <Component class="javax.swing.JButton" name="enviarArchivo">
           <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="66" green="99" red="ff" type="rgb"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Enviar Archivo"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="enviarArchivoActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnAgregarU">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="66" green="66" red="ff" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Invitar Usuarios"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAgregarUActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

@@ -109,9 +109,9 @@ public class Servidor {
 					if (salas.getCantidad() == 0) {
 						Lista tempUsers = new Lista();
 						tempUsers.agregar(u);
-						crearSala(0, tempUsers);
+						crearSala(tempUsers);
 					} else {
-						// ((Sala)salas.getLista().get(0)).getUsuarios().agregar(u.getLoginUsr());
+						((Sala)salas.getLista().get(0)).getUsuarios().agregar(u);
 					}
 				} else {
 					peticion.setSalida(-1);
@@ -122,12 +122,11 @@ public class Servidor {
 
 			case ENVIAR_MENSAJE:
 				Mensaje m = (Mensaje) peticion.getEntrada();
-				/*if (m.getMensaje().equals("") == false) {
-					((Sala) salas.getLista().get(m.getIDSala())).getMensajes().agregar(m);
-				}*/
-				((Sala) salas.getLista().get(m.getIDSala())).getMensajes().agregar(m);
-				peticion.setSalida(((Sala) salas.getLista().get(m.getIDSala())).getMensajes());
-
+                                //este mensaje vacío es el que manda el cargador para que solo le devuelvan la lista de mensajes,sin agregar ningun mensaje nuevo
+                                if( (m.getMensaje().equals("") && m.getUsuario().equals("")) == false ){
+                                    ((Sala) salas.getLista().get(m.getIDSala())).getMensajes().agregar(m);
+                                }
+                                peticion.setSalida(((Sala) salas.getLista().get(m.getIDSala())).getMensajes());
 				break;
 			case LISTAR_CONECTADOS:
 				int IDSala = (Integer) peticion.getEntrada();
@@ -139,12 +138,12 @@ public class Servidor {
 				break;
 			case CREAR_SALA:
 				Usuario usuario = (Usuario) peticion.getEntrada();
-				Usuario realone= (Usuario) conectados.consultar(usuario);
-				Sala nSala = new Sala(salas.getCantidad());
+                                System.out.println("**************SERVER: CREAR SALA POR usuario:" + usuario.getLoginUsr() +" --\n ");
+				Usuario realone = (Usuario) conectados.consultar(usuario);
+                                System.out.println("**************SERVER:CREAR SALA POR realone (CONFIRMADO):" + usuario.getLoginUsr() +" --\n ");
 				Lista l = new Lista();
 				l.agregar(realone);
-				nSala.setUsuarios(l);
-				peticion.setSalida(nSala.getId());
+				peticion.setSalida(crearSala(l));
 				break;
 				
 					
@@ -160,18 +159,14 @@ public class Servidor {
 	}
 
 	//Crea sala y añade al usuario que la solicita
-	private int crearSala(int indiceSala, Lista usuarios) {
-		if (indiceSala >= salas.getCantidad()) {
-			Lista tempMensajes = new Lista();
-			tempMensajes.agregar(new Mensaje(indiceSala, "Sala Creada - Numero: " + indiceSala + " - " + marcadeTiempo(), "SERVIDOR"));
-			salas.agregar(new Sala(indiceSala, usuarios, tempMensajes));
-			if (indiceSala == 0) {
-				((Sala) salas.getLista().get(0)).setNombreSala("LOBBY : Bienvenido!");
-			}
-
-		} else {
-			((Sala) salas.getLista().get(indiceSala)).getUsuarios().agregar(((Usuario) usuarios.getLista().get(0)));
-		}
-		return indiceSala;
-	}
+	private int crearSala(Lista usuarios) {
+            Lista tempMensajes = new Lista();
+            int indiceSala = this.salas.getCantidad();
+            tempMensajes.agregar(new Mensaje(indiceSala, "Sala Creada - Numero: " + indiceSala + " - " + marcadeTiempo(), "SERVIDOR"));
+            salas.agregar(new Sala(indiceSala, usuarios, tempMensajes));
+            if (indiceSala == 0) {
+                    ((Sala) salas.getLista().get(0)).setNombreSala("LOBBY : Bienvenido!");
+            }
+            return indiceSala;
+    }
 }
